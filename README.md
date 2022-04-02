@@ -1,6 +1,6 @@
-#КАК НАПИСАТЬ ОС. ПОШАГОВАЯ ИНСТРУКЦИЯ ОТ АЛЕКСЕЯ
+# КАК НАПИСАТЬ ОС. ПОШАГОВАЯ ИНСТРУКЦИЯ ОТ АЛЕКСЕЯ
 
-#ПОДГОТОВКА
+# ПОДГОТОВКА
 
 
 
@@ -8,30 +8,35 @@
 
 Далее скачайте образ kali linux(можно любой другой linux,но для него команды могут отличаться) и установите на vm ware (графическую версию) 
 
-Запустите наш линукс, откройте в нем командную строку(далее - терминал) и там вводите команды, указанные в пунктах. (команды выделенны звездочкой, вставляйте в терминал без звездочки)
+Запустите наш линукс, откройте в нем командную строку(далее - терминал) и там вводите команды в терминал, указанные в пунктах. (команды выделенны)
 
 Если у вас не установленны необходимые программы,их можно установить командами:
 
-*apt update
-*apt upgrade
-*apt install git
-*apt install nasm
-*apt install gcc
-*apt install ld
+    apt update       
+
+    apt upgrade          
+
+    apt install git            
+
+    apt install nasm               
+
+    apt install gcc            
+
+    apt install ld             
 
 
 
-#ЗАГРУЗКА ФАЙЛОВ
+# ЗАГРУЗКА ФАЙЛОВ
 
 
 
-*git clone https://github.com/arjun024/mkernel.git
+    git clone https://github.com/arjun024/mkernel.git
 
-*cd mkernel
+    cd mkernel
 
 
 
-#КОМАНДЫ СБОРКИ
+# КОМАНДЫ СБОРКИ
 
 
 
@@ -40,72 +45,67 @@
 Код нашей ОС написан на си, его можно отредактировать. Он находится в файле kernel.c 
 Чтобы отредактировать код, введите 
 
-*nano kernel.c
+    nano kernel.c
 
 Обязательно(команды сборки):
 
-*nasm -f elf32 kernel.asm -o kasm.o
+    nasm -f elf32 kernel.asm -o kasm.o
 
-*gcc -m32 -c kernel.c -o kc.o
+    gcc -m32 -c kernel.c -o kc.o
 
-*ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
+    ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
 
 
 
 
 Если выдает ошибку,то есть готовый файл в папке binary_x86 :
 
-*cd binary_x86
+    cd binary_x86
 
 
 
-#ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
+# ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
 
 
 
 Только если установлен эмулятор qemu
 
-*qemu-system-i386 -kernel kernel
+    qemu-system-i386 -kernel kernel
 
 
 
-#ПРИСТУПАЙТЕ К ЗАГРУЗКЕ
+# ПРИСТУПАЙТЕ К ЗАГРУЗКЕ
 
 
 
-GRUB требует, чтобы исполняемый файл ядра соответствовал шаблону.kernel-<version>
+GRUB требует, чтобы исполняемый файл ядра соответствовал шаблону.kernel-версия
 
 Итак, переименуйте ядро:
 
-*mv kernel kernel-701
+    mv kernel kernel-701
 
 Скопируйте его в загрузочный раздел (при условии, что вы суперпользователь):
 
-*cp kernel-701 /boot/kernel-701
+    cp kernel-701 /boot/kernel-701
 
 
 
-#УСТАНОВКА ЗАГРУЗЧИКА
+# УСТАНОВКА ЗАПУСК И НАСТРОЙКА
 
 
 
-*apt install grub
+    apt install grub
 
-*grub-install /dev/hda
-
-
-
-#ЗАПУСК
+    grub-install /dev/hda
 
 
 
-*grub
+    grub
 
+ввести в терминале grub, он выглядит так:     grub>
 
-
-#НАСТРОЙКА 
-
-
-*title ALEXsystem
-	*root (hd0,0)
-	*kernel /boot/kernel-701 ro
+    title ALEXsystem
+	
+	root (hd0,0)
+	
+	kernel /boot/kernel-701 ro
