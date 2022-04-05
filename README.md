@@ -22,7 +22,7 @@
 
     apt install gcc            
 
-    apt install ld             
+    apt install binutils             
 
 
 
@@ -66,9 +66,11 @@
 
 # ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
 
+Установка :
 
+    apt install qemu
 
-Только если установлен эмулятор qemu
+Тест:
 
     qemu-system-i386 -kernel kernel
 
