@@ -55,45 +55,52 @@ README.md
 
 	
 
-ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
+# ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
 
 Установка :
 
-apt install qemu
+	apt install qemu
 
 Тест:
 
-qemu-system-i386 -kernel kernel
+	qemu-system-i386 -kernel kernel
 
-ПРИСТУПАЙТЕ К ЗАГРУЗКЕ
+# ПРИСТУПАЙТЕ К ЗАГРУЗКЕ
 
 GRUB требует, чтобы исполняемый файл ядра использовал шаблону.kernel-версия
 
 Итак, переименуйте ядро:
 
-mv kernel kernel-701
+	mv kernel kernel-701
 
 Скопируйте в загрузочный раздел (при условии, что вы суперпользователь):
 
-cp kernel-701 /boot/kernel-701
+	cp kernel-701 /boot/kernel-701
 
 УСТАНОВКА ЗАПУСК И НАСТРОЙКА
 
-apt install grub
+	apt install grub
 
-grub-install /dev/hda
+	grub-install /dev/hda
 
-grub
+	grub
 
 ввести в терминале grub, он выглядит так: grub>
 
-title ALEXsystem
+	title ALEXsystem
 
-root (hd0,0)
+	root (hd0,0)
 
-kernel /boot/kernel-701 ro
+	kernel /boot/kernel-701 ro
 
-Далее перезагрузитесь и загрузите вашу ос. Все. Слава России. Вы написали ос по гениальному гайду от Алексея. that can read the characters `a-z` and `0-9` from the keyboard and print them on screen.
+Далее перезагрузитесь и загрузите вашу ос. Все. Слава России. Вы написали ос по гениальному гайду от Алексея.
+
+
+
+# ОФИЦИАЛЬНЫЙ РЕПОЗИТОРИЙ:
+
+
+that can read the characters `a-z` and `0-9` from the keyboard and print them on screen.
 
 See the repo [mkernel](http://github.com/arjun024/mkernel) which is a minimal kernel that prints a string on the screen. mkeykernel just extends this to include keyboard support. 
 
