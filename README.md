@@ -1,119 +1,61 @@
-# КАК НАПИСАТЬ ОС. ПОШАГОВАЯ ИНСТРУКЦИЯ ОТ АЛЕКСЕЯ
+mkeykernel
+=======
 
-# ПОДГОТОВКА
+This is a kernel that can read the characters `a-z` and `0-9` from the keyboard and print them on screen.
 
+See the repo [mkernel](http://github.com/arjun024/mkernel) which is a minimal kernel that prints a string on the screen. mkeykernel just extends this to include keyboard support. 
 
 
-Скачайте и установите vm ware
+#### Blog post ####
 
-Далее скачайте образ kali linux(можно любой другой linux,но для него команды могут отличаться) и установите на vm ware (графическую версию) 
+[Kernel 201 - Let’s write a Kernel with keyboard and screen support](http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard-and)
 
-Запустите наш линукс, откройте в нем командную строку(далее - терминал) и там вводите команды в терминал, указанные в пунктах. (команды выделенны)
+#### Build commands ####
+```
+nasm -f elf32 kernel.asm -o kasm.o
+```
+```
+gcc -m32 -c kernel.c -o kc.o
+```
+```
+ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
+```
 
-Если у вас не установленны необходимые программы,их можно установить командами:
+If you get the following error message:
+```
+kc.o: In function `idt_init':
+kernel.c:(.text+0x129): undefined reference to `__stack_chk_fail'
+```
 
-    apt update       
+compile with the `-fno-stack-protector` option:
+```
+gcc -fno-stack-protector -m32 -c kernel.c -o bin/kc.o
+```
 
-    apt upgrade          
+#### Test on emulator ####
+```
+qemu-system-i386 -kernel kernel
+```
 
-    apt install git            
+#### Get to boot ####
+GRUB requires your kernel executable to be of the pattern `kernel-<version>`.
 
-    apt install nasm               
+So, rename the kernel:
 
-    apt install gcc            
+```
+mv kernel kernel-701
+```
 
-    apt install binutils             
+Copy it to your boot partition (assuming you are superuser):
 
+```
+cp kernel-701 /boot/kernel-701
+```
 
+Configure your grub/grub2 similar to what is given in `_grub_grub2_config` folder of [mkernel repo](http://github.com/arjun024/mkernel).
 
-# ЗАГРУЗКА ФАЙЛОВ
+Reboot.
 
+Voila!
 
-
-    git clone https://github.com/arjun024/mkeykernel.git
-
-    cd mkeykernel
-
-
-
-# КОМАНДЫ СБОРКИ
-
-
-
-Необязательно:
-
-Код нашей ОС написан на си, его можно отредактировать. Он находится в файле kernel.c 
-Чтобы отредактировать код, введите 
-
-    nano kernel.c
-
-Обязательно(команды сборки):
-
-    nasm -f elf32 kernel.asm -o kasm.o
-
-    gcc -m32 -c kernel.c -o kc.o
-
-    ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
-
-Если gcc выдаёт ошибку, то можно использовать команду:
-
-	gcc -fno-stack-protector -m32 -c kernel.c -o bin/kc.o
-
-
-
-
-Если все равно выдает ошибку,то есть готовый файл в папке binary_x86 :
-
-    cd binary_x86
-
-
-
-# ТЕСТ НА ЭМУЛЯТОРЕ(необязательно)
-
-Установка :
-
-    apt install qemu
-
-Тест:
-
-    qemu-system-i386 -kernel kernel
-
-
-
-# ПРИСТУПАЙТЕ К ЗАГРУЗКЕ
-
-
-
-GRUB требует, чтобы исполняемый файл ядра соответствовал шаблону.kernel-версия
-
-Итак, переименуйте ядро:
-
-    mv kernel kernel-701
-
-Скопируйте его в загрузочный раздел (при условии, что вы суперпользователь):
-
-    cp kernel-701 /boot/kernel-701
-
-
-
-# УСТАНОВКА ЗАПУСК И НАСТРОЙКА
-
-
-
-    apt install grub
-
-    grub-install /dev/hda
-
-
-
-    grub
-
-ввести в терминале grub, он выглядит так:     grub>
-
-    title ALEXsystem
-	
-	root (hd0,0)
-	
-	kernel /boot/kernel-701 ro
-Далее перезагрузитесь и загрузите вашу ос. 
-Все. Слава Россие. Вы написали ос по гениальному гайду от Алексея.
+![kernel screenshot](http://31.media.tumblr.com/1afd75b433b13df613fa0c2301977893/tumblr_inline_ncy1p0kSGj1rivrqc.png "Screenshot")
