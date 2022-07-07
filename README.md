@@ -30,7 +30,7 @@
 
 
 
-    git clone https://github.com/arjun024/mkernel.git
+    git clone https://github.com/arjun024/mkeykernel.git
 
     cd mkernel
 
@@ -55,10 +55,14 @@
 
     ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
 
+Если gcc выдаёт ошибку, то можно использовать команду:
+
+	gcc -fno-stack-protector -m32 -c kernel.c -o bin/kc.o
 
 
 
-Если выдает ошибку,то есть готовый файл в папке binary_x86 :
+
+Если все равно выдает ошибку,то есть готовый файл в папке binary_x86 :
 
     cd binary_x86
 
