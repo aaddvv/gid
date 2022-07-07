@@ -32,7 +32,7 @@
 
     git clone https://github.com/arjun024/mkeykernel.git
 
-    cd mkernel
+    cd mkeykernel
 
 
 
